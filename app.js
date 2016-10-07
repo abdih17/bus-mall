@@ -4,9 +4,10 @@
 
 var allProducts = [];
 var randomImagesArray = [];
+var dataChartCollection = [];
 
 var imageContainer = document.getElementById('imageContainer');
-
+var resultChart = document.getElementById('resultChart');
 // var productImageOne = document.getElementById('imageOne');
 // var productImageTwo = document.getElementById('imageTwo');
 // var productImageThree = document.getElementById('imageThree');
@@ -16,7 +17,9 @@ var center = document.getElementById('center');
 var right = document.getElementById('right');
 
 var displayVoteResults = document.getElementById('displayVoteResults');
-
+var viewChart = document.getElementById('resultChart');
+var viewChart = document.getElementById('draw-chart');
+var votingChart;
 
 //Place all 15 products objects into a constructor.
 function Products(name, filePath) {
@@ -26,7 +29,6 @@ function Products(name, filePath) {
   this.views = 0;
   allProducts.push(this);
 }
-
 
 //Place all 15 into an array
 //display products in console
@@ -56,16 +58,8 @@ var imageAppear = function(){
   productImageThree.alt = allProducts[img3].name;
   productImages[img3].timesDisplayed ++;
 };
-// function button() {
-//   if(globalClicks < productImages.length) {
-//     document.getElementById('resultsButton').style.visibility = 'hidden';
-//   } else {
-//     document.getElementById('resultsButton').style.visibility = 'visible';
-//   }
-// }
 
-//Generating random array for the three images that will apear on the page at any given time.
-
+//Generating random array for the three images that will appear on the page at any given time.
 function threeRandomImages() {
   randomImagesArray = [];
   //For every random number generated it will be multiplied by the 18 products above so that it can be pushed into the random array above.
@@ -139,6 +133,87 @@ function displayResults() {
   displayList();
 }
 
+function makeBarChart() {
+  var dataArrayVotes = [];
+  var dataArrayNames = [];
+  for (var i = 0; i < allProducts.length; i++) {
+    var clicksForCurrentProduct = allProducts[i].clickTotal;
+    var nameOfCurrentProduct = allProducts[i].name;
+    dataArrayNames.push(nameOfCurrentProduct);
+    dataArrayVotes.push(clicksForCurrentProduct);
+  }
+  //chart
+  var chartData = {
+    labels: dataArrayNames,
+    datasets: [
+      {
+        backgroundColor: [
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink',
+          'grey',
+          'deeppink'
+        ],
+        hoverBackgroundColor: [
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan',
+          'cyan'
+        ],
+        data: dataArrayVotes,
+      }
+    ]
+  };
+
+  var ctx = document.getElementById('barChart').getContext('2d');
+  barChart = new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+      responsive: false
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          stepSize: 1
+        }
+      }]
+    }
+  }
+);
+};
+
 function storeData() {
   console.log('storeData');
   var allProductsStringified = JSON.stringify(allProducts);
@@ -172,12 +247,11 @@ if (localStorage.getItem('allProductsStringified')) {
 }
 
 displayResults();
-// =======.addEventListener('click', handleEventClick); ???
 
-//make code for when user clicks on image 1, 2, or 3
 imageContainer.addEventListener('click', handleEventClick);
 displayVoteResults.addEventListener('click', displayResults);
-//event listeners for the left, center, right images
-
+resultChart.addEventListener('click', function() {
+  makeBarChart();
+});
 
 displayThreeImages();

@@ -18,7 +18,6 @@
 - As the developer, if users click on the container div I want them to get an alert notifying them of the error.
 - As the developer, I want the 'results now' button to display once the user has made 25 selections.
 - As the developer, I want the user to be not click on further images once they've made 25 selections.
-- As the developer, I
 
 
 #User:
