@@ -8,9 +8,6 @@ var dataChartCollection = [];
 
 var imageContainer = document.getElementById('imageContainer');
 var resultChart = document.getElementById('resultChart');
-// var productImageOne = document.getElementById('imageOne');
-// var productImageTwo = document.getElementById('imageTwo');
-// var productImageThree = document.getElementById('imageThree');
 
 var left = document.getElementById('left');
 var center = document.getElementById('center');
