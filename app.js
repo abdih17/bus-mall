@@ -36,43 +36,49 @@ var imgRandom = function () {
 };
 
 var imageAppear = function(){
-  img1 = imgRandom();
-  productImageOne.src = productImages[img1].filePath;
-  productImageOne.alt = allProducts[img1].name;
-  productImages[img1].timesDisplayed ++;
-  img2 = imgRandom();
-  while (img1 === img2) {
-    img2 = imgRandom();
+  left = imgRandom();
+  productImageOne.src = productImages[left].filePath;
+  productImageOne.alt = allProducts[left].name;
+  productImages[left].timesDisplayed ++;
+  right = imgRandom();
+  while (left === right) {
+    right = imgRandom();
   }
-  productImageTwo.src = productImages[img2].filePath;
-  productImageTwo.alt = allProducts[img2].name;
-  productImages[img2].timesDisplayed ++;
-  img3 = imgRandom();
-  while (img1 === img2 || img2 === img3 || img3 === img1) {
-    img3 = imgRandom();
+  productImageTwo.src = productImages[right].filePath;
+  productImageTwo.alt = allProducts[right].name;
+  productImages[right].timesDisplayed ++;
+  center = imgRandom();
+  while (left === right || right === center || center === left) {
+    center = imgRandom();
   }
-  productImageThree.src = productImages[img3].filePath;
-  productImageThree.alt = allProducts[img3].name;
-  productImages[img3].timesDisplayed ++;
+  productImageThree.src = productImages[center].filePath;
+  productImageThree.alt = allProducts[center].name;
+  productImages[center].timesDisplayed ++;
 };
 
 //Generating random array for the three images that will appear on the page at any given time.
 function threeRandomImages() {
+  var lastRoundsRandomImagesArray = randomImagesArray;
   randomImagesArray = [];
   //For every random number generated it will be multiplied by the 18 products above so that it can be pushed into the random array above.
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[0]
+  while (lastRoundsRandomImagesArray.indexOf(randomImagesArray[0]) !== -1) {
+    console.log('duplicate detected with first element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[0]);
+    randomImagesArray[0] = (Math.floor(Math.random() * allProducts.length));
+  }
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[1]
   //If both random number arrays equal to one another array[1] will be generated again to reach a different outcome. Caught and fixed.
-  while (randomImagesArray[0] === randomImagesArray[1]){
-    console.log('duplicate detected with second element.');
+  while (randomImagesArray[0] === randomImagesArray[1] || lastRoundsRandomImagesArray.indexOf(randomImagesArray[1]) !== -1) {
+    console.log('duplicate detected with second element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[1]);
     randomImagesArray[1] = (Math.floor(Math.random() * allProducts.length));
   }
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[2]
   //if duplicate detected another random number will be generated
-  while (randomImagesArray[1] === randomImagesArray[2] || randomImagesArray[0] === randomImagesArray[2]){
-    console.log('duplicate detected with third element.');
+  while (randomImagesArray[1] === randomImagesArray[2] || randomImagesArray[0] === randomImagesArray[2] || lastRoundsRandomImagesArray.indexOf(randomImagesArray[2]) !== -1) {
+    console.log('duplicate detected with third element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[2]);
     randomImagesArray[2] = (Math.floor(Math.random() * allProducts.length));
   }
+
   console.log(randomImagesArray);
 }
 
