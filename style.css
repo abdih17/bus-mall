@@ -1,7 +1,11 @@
 *{
   color: grey;
-  background-color: white;
+  background-color: black;
   text-align: center;
+}
+
+h1, h2, ul, button, canvas {
+  color: white;
 }
 
 img {
@@ -14,4 +18,20 @@ img {
 section {
   border-style: solid;
   cursor: pointer;
+}
+
+#displayVoteResults, #resultChart {
+  margin: 1em auto;
+  padding: .75em 2em;
+  font-size: 150%;
+  font-weight: bold;
+  border-color: white;
+  border-style: double;
+  border-width: 2px;
+  background-color: deeppink;
+  cursor: pointer;
+}
+#resultChart {
+  position: relative;
+  left: 400px;
 }

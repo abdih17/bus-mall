@@ -15,7 +15,6 @@ var right = document.getElementById('right');
 
 var displayVoteResults = document.getElementById('displayVoteResults');
 var viewChart = document.getElementById('resultChart');
-var viewChart = document.getElementById('draw-chart');
 var votingChart;
 
 //Place all 15 products objects into a constructor.
@@ -63,19 +62,19 @@ function threeRandomImages() {
   //For every random number generated it will be multiplied by the 18 products above so that it can be pushed into the random array above.
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[0]
   while (lastRoundsRandomImagesArray.indexOf(randomImagesArray[0]) !== -1) {
-    console.log('duplicate detected with first element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[0]);
+    console.log('duplicate detected with first element.', 'generated number ' + randomImagesArray[0]);
     randomImagesArray[0] = (Math.floor(Math.random() * allProducts.length));
   }
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[1]
   //If both random number arrays equal to one another array[1] will be generated again to reach a different outcome. Caught and fixed.
   while (randomImagesArray[0] === randomImagesArray[1] || lastRoundsRandomImagesArray.indexOf(randomImagesArray[1]) !== -1) {
-    console.log('duplicate detected with second element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[1]);
+    console.log('duplicate detected with second element.', 'generated number ' + randomImagesArray[1]);
     randomImagesArray[1] = (Math.floor(Math.random() * allProducts.length));
   }
   randomImagesArray.push(Math.floor(Math.random() * allProducts.length)); //[2]
   //if duplicate detected another random number will be generated
   while (randomImagesArray[1] === randomImagesArray[2] || randomImagesArray[0] === randomImagesArray[2] || lastRoundsRandomImagesArray.indexOf(randomImagesArray[2]) !== -1) {
-    console.log('duplicate detected with third element.', lastRoundsRandomImagesArray, 'generated number ' + randomImagesArray[2]);
+    console.log('duplicate detected with third element.', 'generated number ' + randomImagesArray[2]);
     randomImagesArray[2] = (Math.floor(Math.random() * allProducts.length));
   }
 
@@ -103,6 +102,7 @@ var counter = 0;
 function handleEventClick() {
   if (event.target.id === 'imageContainer') {
     alert('You need to click on a picture!');
+    return;
   }
   if (event.target.id === 'left' || event.target.id === 'center' || event.target.id === 'right') {
     displayThreeImages();
@@ -110,7 +110,7 @@ function handleEventClick() {
   if (counter < 25) {
     onclick = counter++;
     console.log(counter);
-    displayThreeImages();
+    // displayThreeImages();
   } else {
     imageContainer.removeEventListener('click', handleEventClick);
   }
@@ -224,10 +224,12 @@ function storeData() {
 }
 
 if (localStorage.getItem('allProductsStringified')) {
+  console.log('LOADING');
   var allProductsRetrieved = localStorage.getItem('allProductsStringified');
   var allProductsParsed = JSON.parse(allProductsRetrieved);
   allProducts = allProductsParsed;
 } else {
+  console.log('INSTANTIATING');
   new Products('bag', './img/bag.jpg');
   new Products('banana', './img/banana.jpg');
   new Products('bathroom', './img/bathroom.jpg');
@@ -249,10 +251,11 @@ if (localStorage.getItem('allProductsStringified')) {
   new Products('wine-glass', './img/wine-glass.jpg');
 }
 
-displayResults();
-
 imageContainer.addEventListener('click', handleEventClick);
-displayVoteResults.addEventListener('click', displayResults);
+displayVoteResults.addEventListener('click', function() {
+  displayResults();
+  console.log('WORKING');
+});
 resultChart.addEventListener('click', function() {
   makeBarChart();
 });
